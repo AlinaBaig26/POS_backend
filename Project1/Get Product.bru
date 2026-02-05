@@ -1,0 +1,30 @@
+meta {
+  name: Get Product
+  type: http
+  seq: 13
+}
+
+get {
+  url: http://localhost:80/products/LAP123
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDEyMDUzNSwianRpIjoiNWM0YzgyMGEtMzVmOS00ZTJkLWI3ZTktNmIzMDFlMGI0NmYyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaW5hIiwibmJmIjoxNzcwMTIwNTM1LCJjc3JmIjoiOTNjOGE0NjktMGZmNC00MWM4LWFiMDUtMjY3MmZhYTU4MDZmIiwiZXhwIjoxNzcwMTI3NzM1fQ.ZvXDjwb5PiCiMKRJ2gs7DGDIyT49j7uFA7xDRiDtcPo
+}
+
+body:json {
+  {
+    "sku" : "LAP123"
+  }
+}
+
+body:multipart-form {
+  name: Tech Supplies Co.
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

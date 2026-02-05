@@ -1,0 +1,30 @@
+meta {
+  name: Get Order
+  type: http
+  seq: 18
+}
+
+get {
+  url: http://localhost:80/orders/Javed Iqbal
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2OTU5NjMyNiwianRpIjoiM2ZhY2Y5NmYtMzgxYi00YzczLTk3NDMtYmVjMTAyMzEwYjM2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaW5hIiwibmJmIjoxNzY5NTk2MzI2LCJjc3JmIjoiMmVjNDMyZjctMjI1Mi00ZDE4LTk5M2ItZTc1MmUzOTY0NGYyIiwiZXhwIjoxNzY5NTk2OTI2fQ.zP4-YhTJyWn20gZb9jdGexcoHdLpTLY5_DNs_tFswF0
+}
+
+body:json {
+  {
+    "name" : "Javed Iqbal"
+  }
+}
+
+body:multipart-form {
+  name: Tech Supplies Co.
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

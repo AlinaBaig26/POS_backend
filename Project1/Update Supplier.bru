@@ -1,0 +1,28 @@
+meta {
+  name: Update Supplier
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://localhost:80/suppliers
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDI4NjI4MiwianRpIjoiNzFkOTIxODYtYWNhNi00NjY1LTlhMmQtMGU0ZDFiYzViZDQ0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaW5hIiwibmJmIjoxNzcwMjg2MjgyLCJjc3JmIjoiNzY0ZmUzMDgtMDdmOC00NmYxLTlhYTEtYzY3NGM5ZmMzNGNhIiwiZXhwIjoxNzcwMjg3MDAyfQ.hXp_Tj7KuAtn8pCtLC7BJWNmo1fkYeOa0Nn9jcwgISQ
+}
+
+body:json {
+  {
+    "name": "ElectroMart-updated",
+  //   "contact_info": "789-012-3456",
+    "new_name": "ElectroMart"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

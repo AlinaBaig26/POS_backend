@@ -1,0 +1,27 @@
+meta {
+  name: Add Customer
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:80/customers
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDExODcwMiwianRpIjoiODY2Mzg5OTItZjg4MC00ZmEzLTk4YzAtNGE4NzE2Yjk3MjhhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaW5hIiwibmJmIjoxNzcwMTE4NzAyLCJjc3JmIjoiNWUyZjJjMTQtOGRlYi00NGUyLTg2ZjItZTU2NmMzNDliMGE2IiwiZXhwIjoxNzcwMTE5MzAyfQ.1DrwKQYaIwZeWuXXIIq3WoLPflZtzvZSi9gFBboSMuU
+}
+
+body:json {
+  {
+    "name" : "alina",
+    "contact_info" : "133-14567-234"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
