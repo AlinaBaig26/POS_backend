@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies)
 from pydantic import ValidationError
 from datetime import timedelta
-from Models.model import LoginRequest
+from Models.model import LoginRequest, SignupRequest
 from Database.DatabaseOperations import DatabaseOperations as db_ops
 
 login_bp = Blueprint("auth", __name__)
@@ -14,6 +14,15 @@ def parse_body(model, contacts):
     
     except ValidationError as e:
         return None, e.errors()
+@login_bp.route("/signup", methods=["POST"])
+def signup():
+    body, error = parse_body(SignupRequest, request.json)
+    if error:
+        return jsonify({"success": False, "errors": error}), 400
+    
+    add_user = db_ops.add_user(body.first_name, body.last_name, body.email, body.password)
+    if add_user:
+        return jsonify({"message": "User added", "User Name": body.first_name}), 201
 
 @login_bp.route("/login", methods=["POST"])
 def login():
