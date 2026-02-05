@@ -30,7 +30,7 @@ def login():
     if error:
         return jsonify({"success": False, "errors": error}), 400
 
-    credntials_valid = db_ops.check_credentials(body.name, body.password)
+    credntials_valid = db_ops.check_credentials(body.email, body.password)
     if not credntials_valid:
         return jsonify({"error": "Invalid name or password"}), 401
     
