@@ -13,7 +13,9 @@ Base = declarative_base()
 class Credentials(Base):
     __tablename__ = 'credentials'
     id = Column(Integer, Sequence('credentials_id_seq'), primary_key=True)
-    name = Column(String(50), nullable=False, unique=True)
+    first_name = Column(String(50), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    email = Column(String(100), nullable=False, unique=True)
     password = Column(String(100), nullable=False)
 
 class Customer(Base):
@@ -77,7 +79,9 @@ def seed_data():
     Supplier2 = Supplier(name='Gadget World', contact_info='678-901-2345')
     Supplier3 = Supplier(name='ElectroMart', contact_info='789-012-3456')
 
-    Credential1 = Credentials(name='alina', password='password123')
+    Credential1 = Credentials(first_name = "Alina",last_name = "Baig", email='haideralina15@gmail.com', password='password123')
+    # Credential1 = Credentials(first_name = "Ayesha",last_name = "Habib", email='ayeshahabib246@gmail.com', password='password123')
+
     session.add_all([Customer1, Customer2, Customer3, Order1, Order2, Order3, Order4, Product1, Product2, Product3, Product4, Supplier1, Supplier2, Supplier3, Credential1])
     session.commit()
 

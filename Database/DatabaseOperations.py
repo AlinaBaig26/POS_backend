@@ -9,11 +9,19 @@ class DatabaseOperations:
         return get_session()
     
     @staticmethod
-    def check_credentials(name: str, password: str) -> bool:
+    def check_credentials(email: str, password: str) -> bool:
         session = DatabaseOperations._session()
-        credential = session.query(Credentials).filter_by(name=name, password=password).first()
+
+        credential = session.query(Credentials).filter_by(email=email, password=password).first()
         session.close()
         return credential is not None
+
+    @staticmethod
+    def get_user_by_email(email: str):
+        session = DatabaseOperations._session()
+        customer = session.query(Credentials).filter_by(email=email).first()
+        session.close()
+        return customer
 
     @staticmethod
     def get_customer_by_name(name: str):
@@ -77,6 +85,27 @@ class DatabaseOperations:
         suppliers = session.query(Supplier).all()
         session.close()
         return suppliers
+    
+    @staticmethod
+    def add_user(first_name: str, last_name: str, email: str, password: str):
+        session = DatabaseOperations._session()
+        
+        if DatabaseOperations.get_user_by_email(email):
+            session.close()
+            raise ValueError(f"User with email {email} already exists.")
+        
+        try:
+            new_user = Credentials(first_name=first_name, last_name=last_name, email=email, password=password)
+            session.add(new_user)
+            session.commit()
+            return new_user
+        
+        except IntegrityError:
+            session.rollback()
+            raise ValueError("Failed to add user due to integrity error.")
+        
+        finally:
+            session.close()
 
     @staticmethod
     def add_customer(name: str, phone: str):
