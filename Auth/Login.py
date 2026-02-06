@@ -7,35 +7,45 @@ from Database.DatabaseOperations import DatabaseOperations as db_ops
 
 login_bp = Blueprint("auth", __name__)
 
-def parse_body(model, contacts):
+def parse_body(model, data):
 
     try:
-        return model.model_validate(contacts), None
+        return model.model_validate(data), None
     
     except ValidationError as e:
         return None, e.errors()
 @login_bp.route("/signup", methods=["POST"])
 def signup():
-    body, error = parse_body(SignupRequest, request.json)
-    if error:
-        return jsonify({"success": False, "errors": error}), 400
+    # body, error = parse_body(SignupRequest, request.json)
+    # if error:
+    #     return jsonify({"success": False, "errors": error}), 400
+    data = request.get_json()
+
+    first_name = data.get("first_name")
+    last_name = data.get("last_name")
+    email = data.get("email")
+    password = data.get("password")
     
-    add_user = db_ops.add_user(body.first_name, body.last_name, body.email, body.password)
+    add_user = db_ops.add_user(first_name, last_name, email, password)
     if add_user:
-        return jsonify({"message": "User added", "User Name": body.first_name}), 201
+        return jsonify({"message": "User added", "User Name": first_name}), 201
 
 @login_bp.route("/login", methods=["POST"])
 def login():
-    body, error = parse_body(LoginRequest, request.json)
-    if error:
-        return jsonify({"success": False, "errors": error}), 400
+    # body, error = parse_body(LoginRequest, request.json)
+    # if error:
+    #     return jsonify({"success": False, "errors": error}), 400
+    data = request.get_json()
 
-    credntials_valid = db_ops.check_credentials(body.email, body.password)
+    email = data.get("email")
+    password = data.get("password")
+
+    credntials_valid = db_ops.check_credentials(email, password)
     if not credntials_valid:
-        return jsonify({"error": "Invalid name or password"}), 401
+        return jsonify({"error": "Invalid email or password"}), 401
     
-    access_token = create_access_token(identity=body.name, expires_delta=timedelta(minutes=12))
-    refresh_token = create_refresh_token(identity=body.name, expires_delta=timedelta(days=7))
+    access_token = create_access_token(identity=email, expires_delta=timedelta(minutes=12))
+    refresh_token = create_refresh_token(identity=email, expires_delta=timedelta(days=7))
 
     # response = jsonify({"access_token": access_token, "refresh_token": refresh_token})
     response = jsonify({"success": True})
