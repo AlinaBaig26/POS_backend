@@ -12,7 +12,7 @@ Base = declarative_base()
 
 class Credentials(Base):
     __tablename__ = 'credentials'
-    id = Column(Integer, Sequence('credentials_id_seq'), primary_key=True)
+    id = Column(Integer, primary_key=True)
     first_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
     email = Column(String(100), nullable=False, unique=True)
