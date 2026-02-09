@@ -1,7 +1,7 @@
 meta {
   name: Get Order
   type: http
-  seq: 19
+  seq: 21
 }
 
 get {
@@ -11,12 +11,13 @@ get {
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2OTU5NjMyNiwianRpIjoiM2ZhY2Y5NmYtMzgxYi00YzczLTk3NDMtYmVjMTAyMzEwYjM2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaW5hIiwibmJmIjoxNzY5NTk2MzI2LCJjc3JmIjoiMmVjNDMyZjctMjI1Mi00ZDE4LTk5M2ItZTc1MmUzOTY0NGYyIiwiZXhwIjoxNzY5NTk2OTI2fQ.zP4-YhTJyWn20gZb9jdGexcoHdLpTLY5_DNs_tFswF0
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDYyOTE1OSwianRpIjoiZDNkMTdhZWQtYzlmYS00N2NlLTg5NzYtYTRlMGExNjhlYjc5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFtbWFyYmFpZ0BnbWFpbC5jb20iLCJuYmYiOjE3NzA2MjkxNTksImNzcmYiOiJmYjZlNGVhOS0xNDNkLTQ4ZGUtYTI4Yy02OGUyZmY2Y2I2OTUiLCJleHAiOjE3NzA2Mjk4Nzl9.GrVYhy25rQfwOYyo4pWY0vFizngJTtRVKvyxEpulOmQ
 }
 
 body:json {
   {
-    "name" : "Javed Iqbal"
+  //   "name" : "Javed Iqbal"
+    "order_number" : "13"
   }
 }
 

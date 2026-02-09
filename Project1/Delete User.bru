@@ -1,0 +1,26 @@
+meta {
+  name: Delete User
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:80/auth
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDM3MDA2MSwianRpIjoiODhlZTFjYjQtODA4Ny00MmNiLThhZDctMTYwNzc3NzU4NDhhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFtbWFyYmFpZ0BnbWFpbC5jb20iLCJuYmYiOjE3NzAzNzAwNjEsImNzcmYiOiIyMjZmMmYxYi02YTc5LTQ5MzQtYTU5ZC0xOTM4MWM2MzQwNTQiLCJleHAiOjE3NzAzNzA3ODF9.JP21nJHFvz9LdTNexHJx7kzZYidKjdeIjrCAoYxy6wk
+}
+
+body:json {
+  {
+    "email" : "ammarbaig@gmail.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

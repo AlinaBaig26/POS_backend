@@ -6,7 +6,8 @@ from Auth.Login import login_bp
 from Product.Product import product_bp
 from Customer.Customer import customer_bp
 from Supplier.Supplier import supplier_bp
-# from Orders.Order import order_bp
+from Purchase.Purchase import purchase_bp
+from Orders.Order import order_bp
 
 
 def create_app():
@@ -34,7 +35,8 @@ def create_app():
     app.register_blueprint(product_bp, url_prefix="/products")
     app.register_blueprint(customer_bp, url_prefix="/customers")
     app.register_blueprint(supplier_bp, url_prefix="/suppliers")
-    # app.register_blueprint(order_bp, url_prefix="/orders")
+    app.register_blueprint(purchase_bp, url_prefix="/purchases")
+    app.register_blueprint(order_bp, url_prefix="/orders")
     
 
     return app

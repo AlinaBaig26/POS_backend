@@ -19,6 +19,7 @@ def get_order(name):
 
     name = request.get_json().get("name")
     order_number = request.get_json().get("order_number")
+    
     if not name and not order_number:
         return jsonify({"error": "Customer name or Order Number is required"}), 400
     if order_number:
@@ -45,41 +46,41 @@ def get_order(name):
             return jsonify([{
                 "Order Number": order.order_number,
                 "product details": {
-                    "Product Name": order.product.name,
-                    "Product Description": order.product.description,
+                    "Name": order.product.name,
+                    "Description": order.product.description,
                     "SKU": order.product.SKU,
                     "Price": order.product.price,
                     "Cost Price": order.product.cost_price
                 },
                 "Customer Name": {
-                    "Customer Name": order.customer.name,
-                    "Customer Contact": order.customer.phone
+                    "Name": order.customer.name,
+                    "Contact": order.customer.phone
                 }
                 }for order in orders]), 200
         else:
             return jsonify({"error": "Order not found.", "Name entered": name}), 404
         
 @order_bp.route("/",methods=["GET"])
-@jwt_required
+@jwt_required()
 def get_all_orders():
     orders = db_ops.get_all_orders()
     return jsonify([{
         "Order Number": order.order_number,
         "Product Details": {
-            "Product Name": order.product.name,
-            "Product Description": order.product.description,
-            "Product SKU": order.product.SKU,
+            "Name": order.product.name,
+            "Description": order.product.description,
+            "SKU": order.product.SKU,
             "Price": order.product.price,
             "Cost Price": order.product.cost_price
         },
         "Customer Details": {
-            "Customer Name": order.customer.name,
-            "Customer Contact": order.customer.phone
+            "Name": order.customer.name,
+            "Contact": order.customer.phone
         }
         }for order in orders])
 
 @order_bp.route("/",methods=["POST"])
-@jwt_required
+@jwt_required()
 def add_order():
     data = request.get_json()
     order_number = data.get("order_number")
@@ -89,20 +90,30 @@ def add_order():
     if not order_number or not customer_name or not product_sku:
         return jsonify({"error": "Missing fields"}), 400
     
-    added = db_ops.add_order(order_number,customer_name,product_sku)
+    added = db_ops.add_order(order_number,product_sku,customer_name)
     if added:
         return jsonify({"message": "Order added", "Order Number": order_number}), 201
+    
+    return jsonify({"error": "Failed to add order"}), 400
 
 @order_bp.route("/",methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_order():
     order_number = request.get_json().get("order_number")
 
     if not order_number:
         return jsonify({"error": "Order number required"}), 400
+    
+    deleted = db_ops.delete_order(order_number)
+    
+    if deleted:
+        return jsonify({"message": "Order deleted", "Order Number": order_number}), 200
+
+    else:
+        return jsonify({"error": "Order not found"}), 404
 
 @order_bp.route("/",methods=["PUT"])
-@jwt_required
+@jwt_required()
 def update_order():
 
     data = request.get_json()
@@ -115,9 +126,11 @@ def update_order():
     if not order_number:
         return jsonify({"error": "Missing fields"}), 400
 
-    updated = db_ops.update_order(order_number, new_customer_name, new_product_sku, new_order_number)
+    updated = db_ops.update_order(order_number, new_order_number, new_customer_name, new_product_sku)
     
     if updated:
+        if not new_order_number:
+            new_order_number = order_number
         return jsonify({"message": "Order updated", "Order Number": new_order_number}), 200
 
     else:

@@ -1,5 +1,6 @@
 from sqlalchemy.exc import IntegrityError
-from Database.Database import Credentials, Customer, Order, Product, Supplier, get_session
+from sqlalchemy.orm import joinedload
+from Database.Database import Credentials, Customer, Order, Product, Supplier, get_session, Purchase
 
 session = get_session()
 class DatabaseOperations:
@@ -33,16 +34,30 @@ class DatabaseOperations:
     @staticmethod
     def get_orders_by_customer_name(name: str):
         session = DatabaseOperations._session()
-        order = session.query(Order).join(Customer).filter(Customer.name == name).all()
+        order = session.query(Order).options(joinedload(Order.product),joinedload(Order.customer)).filter(Customer.name == name).all()
         session.close()
         return order
     
     @staticmethod
     def get_order_by_number(order_number: str):
         session = DatabaseOperations._session()
-        order = session.query(Order).filter_by(order_number=order_number).first()
+        order = session.query(Order).options(joinedload(Order.product), joinedload(Order.customer)).filter_by(order_number=order_number).first()
         session.close()
         return order
+    
+    @staticmethod
+    def get_purchase_by_supplier_name(name: str):
+        session = DatabaseOperations._session()
+        purchase = session.query(Purchase).options(joinedload(Purchase.product),joinedload(Purchase.supplier)).filter(Supplier.name == name).all()
+        session.close()
+        return purchase
+    
+    @staticmethod
+    def get_purchase_by_number(purchase_number: str):
+        session = DatabaseOperations._session()
+        purchase = session.query(Purchase).options(joinedload(Purchase.product), joinedload(Purchase.supplier)).filter_by(purchase_number=purchase_number).first()
+        session.close()
+        return purchase
 
     @staticmethod
     def get_product_by_sku(sku: str):
@@ -59,6 +74,13 @@ class DatabaseOperations:
         return supplier
 
     @staticmethod
+    def get_all_users():
+        session = DatabaseOperations._session()
+        users = session.query(Credentials).all()
+        session.close()
+        return users
+    
+    @staticmethod
     def get_all_customers():
         session = DatabaseOperations._session()
         customers = session.query(Customer).all()
@@ -68,7 +90,14 @@ class DatabaseOperations:
     @staticmethod
     def get_all_orders():
         session = DatabaseOperations._session()
-        orders = session.query(Order).all()
+        orders = session.query(Order).options(joinedload(Order.product), joinedload(Order.customer)).all()
+        session.close()
+        return orders
+    
+    @staticmethod
+    def get_all_purchases():
+        session = DatabaseOperations._session()
+        orders = session.query(Purchase).options(joinedload(Purchase.product), joinedload(Purchase.supplier)).all()
         session.close()
         return orders
 
@@ -132,20 +161,44 @@ class DatabaseOperations:
     def add_order(order_number: str, product_sku: str, customer_name: str):
         session = DatabaseOperations._session()
 
-        customer = DatabaseOperations.get_customer_by_name(customer_name)
-        product = DatabaseOperations.get_product_by_sku(product_sku)
-        if not customer:
-            session.close()
-            raise ValueError(f"Customer with name {customer_name} does not exist.")
-        if not product:
-            session.close()
-            raise ValueError(f"Product with SKU {product_sku} does not exist.")
-        
         try:
+            customer = session.query(Customer).filter_by(name=customer_name).first()
+            if not customer:
+                raise ValueError(f"Customer with name {customer_name} does not exist.")
+
+            product = session.query(Product).filter_by(SKU=product_sku).first()
+            if not product:
+                raise ValueError(f"Product with SKU {product_sku} does not exist.")
+            
             new_order = Order(order_number=order_number,product=product, customer=customer)
             session.add(new_order)
             session.commit()
             return new_order
+        
+        except IntegrityError:
+            session.rollback()
+            raise ValueError("Failed to add order due to integrity error.")
+        
+        finally:
+            session.close()
+
+    @staticmethod
+    def add_purchase(purchase_number: str, product_sku: str, supplier_name: str):
+        session = DatabaseOperations._session()
+        
+        try:
+            supplier = session.query(Supplier).filter_by(name=supplier_name).first()
+            if not supplier:
+                raise ValueError(f"Customer with name {supplier_name} does not exist.")
+
+            product = session.query(Product).filter_by(SKU=product_sku).first()
+            if not product:
+                raise ValueError(f"Product with SKU {product_sku} does not exist.")
+            
+            new_purchase = Purchase(purchase_number=purchase_number,product=product, supplier=supplier)
+            session.add(new_purchase)
+            session.commit()
+            return new_purchase
         
         except IntegrityError:
             session.rollback()
@@ -195,6 +248,19 @@ class DatabaseOperations:
             session.close()
 
     @staticmethod
+    def delete_user(email: str):
+        session = DatabaseOperations._session()
+        user = DatabaseOperations.get_user_by_email(email)
+        if not user:
+            session.close()
+            raise ValueError(f"Customer with name {email} does not exist.")
+        
+        session.delete(user)
+        session.commit()
+        session.close()
+        return True
+
+    @staticmethod
     def delete_customer(name: str):
         session = DatabaseOperations._session()
         customer = DatabaseOperations.get_customer_by_name(name)
@@ -210,12 +276,25 @@ class DatabaseOperations:
     @staticmethod
     def delete_order(order_number: str):
         session = DatabaseOperations._session()
-        order = session.query(Order).filter_by(id=order_number).first()
+        order = session.query(Order).filter_by(order_number=order_number).first()
         if not order:
             session.close()
             raise ValueError(f"Order with number {order_number} does not exist.")
         
         session.delete(order)
+        session.commit()
+        session.close()
+        return True
+    
+    @staticmethod
+    def delete_purchase(purchase_number: str):
+        session = DatabaseOperations._session()
+        purchase = session.query(Purchase).filter_by(purchase_number=purchase_number).first()
+        if not purchase:
+            session.close()
+            raise ValueError(f"Purchase with number {purchase_number} does not exist.")
+        
+        session.delete(purchase)
         session.commit()
         session.close()
         return True
@@ -317,29 +396,69 @@ class DatabaseOperations:
         return supplier
     
     @staticmethod
+    def update_purchase(purchase_number: str, new_purchase_number: str, new_supplier_name: str, new_product_sku: str):
+        session = DatabaseOperations._session()
+
+        try:
+            purchase = session.query(Purchase).filter_by(purchase_number=purchase_number).first()
+            if not purchase:
+                raise ValueError(f"Purchase with number {purchase_number} does not exist.")
+
+            if new_supplier_name:
+                new_supplier = session.query(Supplier).filter_by(name=new_supplier_name).first()
+                if not new_supplier:
+                    raise ValueError(f"Supplier with name {new_supplier_name} does not exist.")
+                purchase.customer = new_supplier
+
+            if new_product_sku:
+                new_product = session.query(Product).filter_by(SKU=new_product_sku).first()
+                if not new_product:
+                    raise ValueError(f"Product with SKU {new_product_sku} does not exist.")
+                purchase.product = new_product
+
+            if new_purchase_number:
+                purchase.order_number = new_purchase_number
+
+            session.commit()
+            return purchase
+
+        except IntegrityError:
+            session.rollback()
+            raise ValueError("Failed to update purchase due to integrity error.")
+
+        finally:
+            session.close()
+    
+    @staticmethod
     def update_order(order_number: str, new_order_number: str, new_customer_name: str, new_product_sku: str):
         session = DatabaseOperations._session()
 
-        order = DatabaseOperations.get_order_by_number(order_number)
-        if not order:
+        try:
+            order = session.query(Order).filter_by(order_number=order_number).first()
+            if not order:
+                raise ValueError(f"Order with number {order_number} does not exist.")
+
+            if new_customer_name:
+                new_customer = session.query(Customer).filter_by(name=new_customer_name).first()
+                if not new_customer:
+                    raise ValueError(f"Customer with name {new_customer_name} does not exist.")
+                order.customer = new_customer
+
+            if new_product_sku:
+                new_product = session.query(Product).filter_by(SKU=new_product_sku).first()
+                if not new_product:
+                    raise ValueError(f"Product with SKU {new_product_sku} does not exist.")
+                order.product = new_product
+
+            if new_order_number:
+                order.order_number = new_order_number
+
+            session.commit()
+            return order
+
+        except IntegrityError:
+            session.rollback()
+            raise ValueError("Failed to update order due to integrity error.")
+
+        finally:
             session.close()
-            raise ValueError(f"Order with number {order_number} does not exist.")
-
-        if new_customer_name:
-            new_customer = DatabaseOperations.get_customer_by_name(new_customer_name)
-            if not new_customer:
-                raise ValueError(f"Customer with name {new_customer_name} does not exist.")
-            order.customer = new_customer
-
-        if new_product_sku:
-            new_product = DatabaseOperations.get_product_by_sku(new_product_sku)
-            if not new_product:
-                raise ValueError(f"Product with sku {new_product_sku} does not exist.")
-            order.product = new_product
-
-        if new_order_number:
-            order.order_number = new_order_number
-
-        session.commit()
-        session.close()
-        return order

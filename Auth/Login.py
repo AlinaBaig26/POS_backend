@@ -47,8 +47,8 @@ def login():
     access_token = create_access_token(identity=email, expires_delta=timedelta(minutes=12))
     refresh_token = create_refresh_token(identity=email, expires_delta=timedelta(days=7))
 
-    # response = jsonify({"access_token": access_token, "refresh_token": refresh_token})
-    response = jsonify({"success": True})
+    response = jsonify({"access_token": access_token, "refresh_token": refresh_token})
+    # response = jsonify({"success": True})
     set_access_cookies(response, access_token)
     set_refresh_cookies(response, refresh_token)
 
@@ -82,3 +82,29 @@ def refresh():
     set_refresh_cookies(response, new_refresh_token)
 
     return response
+
+@login_bp.route("/", methods=["GET"])
+@jwt_required()
+def get_all_users():
+    get_all_users
+    pass
+    users = db_ops.get_all_users()
+    return jsonify([
+        {"First Name": user.first_name , "Last Name": user.last_name, "Email": user.email, "Password": user.password}
+        for user in users])
+
+@login_bp.route("/", methods=["DELETE"])
+@jwt_required()
+def delete_user():
+    email = request.get_json().get("email")
+
+    if not email:
+        return jsonify({"error": "Product email required"}), 400
+
+    deleted = db_ops.delete_user(email)
+    
+    if deleted:
+        return jsonify({"message": "User deleted", "User email": email}), 200
+
+    else:
+        return jsonify({"error": "User not found"}), 404

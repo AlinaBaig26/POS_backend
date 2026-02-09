@@ -1,0 +1,31 @@
+meta {
+  name: Get Purchase
+  type: http
+  seq: 26
+}
+
+get {
+  url: http://localhost:80/purchases/Tech Supplies Co.
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDYzMTM5MCwianRpIjoiZmEwYTAxMmUtOTMzOS00OGQ4LWE2NTItNDBhNTNjOTU5YjhiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcwNjMxMzkwLCJjc3JmIjoiMjYwNzI2MmItZGQ3Yy00ODU5LWJkYjctOGZiMmFmMWUyNDI0IiwiZXhwIjoxNzcwNjMyMTEwfQ.w-3WHKeEhp9xcduvx9hkdMHy1WJZ7iEmzw3cukB4gGU
+}
+
+body:json {
+  {
+  //   "name" : "Javed Iqbal"
+    "purchase_number" : "123"
+  }
+}
+
+body:multipart-form {
+  name: Tech Supplies Co.
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

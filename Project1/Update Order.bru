@@ -1,24 +1,25 @@
 meta {
   name: Update Order
   type: http
-  seq: 23
+  seq: 25
 }
 
 put {
-  url: http://localhost:80/order
+  url: http://localhost:80/orders
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDExODcwMiwianRpIjoiODY2Mzg5OTItZjg4MC00ZmEzLTk4YzAtNGE4NzE2Yjk3MjhhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaW5hIiwibmJmIjoxNzcwMTE4NzAyLCJjc3JmIjoiNWUyZjJjMTQtOGRlYi00NGUyLTg2ZjItZTU2NmMzNDliMGE2IiwiZXhwIjoxNzcwMTE5MzAyfQ.1DrwKQYaIwZeWuXXIIq3WoLPflZtzvZSi9gFBboSMuU
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MDYzMDUzNCwianRpIjoiN2JhMDUxMTYtNGE4YS00MzE4LWE3MDQtY2UzMjQ4YjhiM2Q3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFtbWFyYmFpZ0BnbWFpbC5jb20iLCJuYmYiOjE3NzA2MzA1MzQsImNzcmYiOiI3ZjQ0MWYwZi00ZThhLTRmNDktOTdlOC01ZGZkOTJkMWQyNjAiLCJleHAiOjE3NzA2MzEyNTR9.C3V7BxeqauNXZO9JPmflsX7EWf2xaxynK-l9hyD4s2I
 }
 
 body:json {
   {
-    "order_number": "LAP123",
-    "customer_name": "A high-performance laptop",
-    "product_sku": ""
+    "order_number": "14",
+    "new_customer_name": "Faiza Abdullah"
+  //   "new_product_sku": ""
+  //   "new_order_number": ""
   }
 }
 
