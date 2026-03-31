@@ -1,0 +1,28 @@
+meta {
+  name: Update Order
+  type: http
+  seq: 26
+}
+
+put {
+  url: {{baseURL}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjE4NjAxMSwianRpIjoiNDg2Y2I3OWItOGVlZi00MmJkLTlkYmUtMzJjMTdlNmU3NWUzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTg2MDExLCJjc3JmIjoiZmM0MGVlMzItYzJlNS00ZWRhLWFjODMtNTRjMTMzNzUyYjYyIiwiZXhwIjoxNzcyMTg2NzMxfQ.7DEc1j8R-9sv49wy5iQEQiWDg5HTFhCllkWXZbCHHnM
+}
+
+body:json {
+  {
+    "order_number": "12",
+    "new_customer_name": "Javed Iqbal",
+    "new_product_sku": "LAP123"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Delete Purchase
+  type: http
+  seq: 30
+}
+
+delete {
+  url: {{baseURL}}/purchases
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjE5MDgxNSwianRpIjoiOTU3ZWIzN2EtZWQ3Zi00YWIwLTkyMjUtNDg4ZDIxMDBiMjA4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTkwODE1LCJjc3JmIjoiMWVmMjFlODAtNDNmNS00NjZjLWE5OTEtY2FjNjhjMmNlYzkyIiwiZXhwIjoxNzcyMTkxNTM1fQ.awBgExERg7aUga8aDVSM-HoJSKYQKsRcHIWd3xIcZw4
+}
+
+body:json {
+  {
+    "purchase_number": "127"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

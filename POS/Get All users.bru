@@ -1,0 +1,26 @@
+meta {
+  name: Get All users
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseURL}}/auth
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjEwNzQxNSwianRpIjoiYTk2YjkxY2YtNjJlNC00OGZhLWI3YWUtYTA3Nzg5ODNkNWQzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTA3NDE1LCJjc3JmIjoiNTdjMzY0MGUtYzc4NC00NWM0LTk3NTMtMGFjYjU2ODUzNjc0IiwiZXhwIjoxNzcyMTA4MTM1fQ.4gGWw2ueQ9aWM51nhUsTs2xR1usaVa7m6E2IxqAru7s
+}
+
+body:json {
+  {
+   
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

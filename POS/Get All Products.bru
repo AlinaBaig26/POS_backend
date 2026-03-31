@@ -1,0 +1,26 @@
+meta {
+  name: Get All Products
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseURL}}/products
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjE4NzkyNCwianRpIjoiMDBiNTU2MmUtNDNhNC00ZjRlLTljNzItYzhhNzkzZjAzMzk2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTg3OTI0LCJjc3JmIjoiZmQ4OTZjZGYtYzVmYi00MDI0LTg1ZDQtZjU0Y2YwNTM4MGI4IiwiZXhwIjoxNzcyMTg4NjQ0fQ.DPaPk-XftRtGgmfi1hjs6lta0JGMeU_qI_nfxlns93M
+}
+
+body:json {
+  // {
+  //  "sku": "LAP123"
+  // }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

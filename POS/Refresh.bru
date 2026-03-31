@@ -1,0 +1,26 @@
+meta {
+  name: Refresh
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseURL}}/auth/refresh
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MTkyNjE3NywianRpIjoiM2E3ZTYxN2UtNTMyYi00ODBmLWIzNzktNTlmZDIzOWM1MTM5IiwidHlwZSI6InJlZnJlc2giLCJzdWIiOiJoYWlkZXJhbGluYTE1QGdtYWlsLmNvbSIsIm5iZiI6MTc3MTkyNjE3NywiY3NyZiI6IjFlODhiMTVkLWE4NmItNDM1NS04MGU5LWU1YjViODA0N2VmZiIsImV4cCI6MTc3MjUzMDk3N30.YUnXkAXcktMEaO5uS8dxcIxm0mfl7auYvauby-qWP3k
+}
+
+body:json {
+  {
+   
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

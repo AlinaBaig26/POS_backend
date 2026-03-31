@@ -1,0 +1,28 @@
+meta {
+  name: Update Supplier
+  type: http
+  seq: 21
+}
+
+put {
+  url: {{baseURL}}/suppliers
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjE5MjA2OCwianRpIjoiMWJjMjY4NGMtNTAxZi00MmFjLThiYzQtZDEzMGIzN2Y3OGJiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTkyMDY4LCJjc3JmIjoiY2NjNTUxNmQtODI5OS00NWJmLThjNjItMTczMzAyNmZlMTRlIiwiZXhwIjoxNzcyMTkyNzg4fQ.j-IqdHCAUOL4AL35_zTN9mUe1nkqeKqHLA1y7j8Zv28
+}
+
+body:json {
+  {
+    "name":"ElectroMart",
+    "contact_info":"2345678-394876"
+  //   "new_name":""
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

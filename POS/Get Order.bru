@@ -1,0 +1,27 @@
+meta {
+  name: Get Order
+  type: http
+  seq: 22
+}
+
+get {
+  url: {{baseURL}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjE4NTE0OSwianRpIjoiMjZmMDVhZjEtZWE4My00YTQ4LTllYzktM2VlZTQ2MTE3YjEyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTg1MTQ5LCJjc3JmIjoiYTdkMTQ2NjktMGIxYS00OTEzLTg3YjUtZDQwYWNkNWQ3ZWU1IiwiZXhwIjoxNzcyMTg1ODY5fQ.gAlSpRsO0LPJRVlzhTBqwYplQDgQAMQgtXG8AZZW05c
+}
+
+body:json {
+  {
+   "customer_name": "Faiza Abdullah"
+  //   "order_number": "14"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,27 @@
+meta {
+  name: Update Customer
+  type: http
+  seq: 11
+}
+
+put {
+  url: {{baseURL}}/customers
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjE4MjI3NywianRpIjoiYzE2ZTgwNjYtYTY5MC00YTY4LWJiZWMtYThhZjdmM2E0NmVmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTgyMjc3LCJjc3JmIjoiNmM1NGFhY2UtZmIyNC00M2FjLWE0MzAtMTk0OTY5MWJmNWNlIiwiZXhwIjoxNzcyMTgyOTk3fQ.3mdRaOQ1TZG1p1p4oBYQrhSS-dMD5fpG_cC2U0hDEbU
+}
+
+body:json {
+  {
+   "name": "Javed Iqbal",
+    "phone": "1836-2863571637"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
