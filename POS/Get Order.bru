@@ -5,20 +5,22 @@ meta {
 }
 
 get {
-  url: {{baseURL}}/orders
+  url: {{baseURL}}/orders/?customer_name=Faiza Abdullah
   body: json
   auth: bearer
 }
 
+params:query {
+  customer_name: Faiza Abdullah
+}
+
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3MjE4NTE0OSwianRpIjoiMjZmMDVhZjEtZWE4My00YTQ4LTllYzktM2VlZTQ2MTE3YjEyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzcyMTg1MTQ5LCJjc3JmIjoiYTdkMTQ2NjktMGIxYS00OTEzLTg3YjUtZDQwYWNkNWQ3ZWU1IiwiZXhwIjoxNzcyMTg1ODY5fQ.gAlSpRsO0LPJRVlzhTBqwYplQDgQAMQgtXG8AZZW05c
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3Njg0NzA5NiwianRpIjoiZjZkZTllYjEtOTk5ZS00N2QzLWI0MzgtM2I2ODkzNWMwZTRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImhhaWRlcmFsaW5hMTVAZ21haWwuY29tIiwibmJmIjoxNzc2ODQ3MDk2LCJjc3JmIjoiZmYwMGEyMDAtNTk5ZC00MTc0LWFkMmMtMWFiYTA4MTUyMDg1IiwiZXhwIjoxNzc2ODQ3ODE2fQ.vPReQePTagjpkbosjSNTogvx1qPuEreC2_RqQ8prhIg
 }
 
 body:json {
-  {
-   "customer_name": "Faiza Abdullah"
-  //   "order_number": "14"
-  }
+  // ?order_number=14
+  // ?customer_name=Faiza Abdullah
 }
 
 settings {
